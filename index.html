@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>动画效果</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        .wrapper {
+            width: 1000px;
+            border: 5px solid black;
+            margin: 0 auto;
+            margin-top:100px;
+        }
+
+        ul {
+            display: flex;
+        }
+
+        li {
+            position: relative;
+            width: 200px;
+            height: 400px;
+            border: 1px solid black;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-right: 20px;
+            list-style: none;
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+        img {
+            width: 200px;
+            height: 400px;
+            transition: transform 0.5s linear;
+            transform: translateY(400px);
+            border-radius: 20px;
+        }
+
+        .init img {
+            transform: translateY(0);
+        }
+
+        ul li:nth-child(2) img {
+            transition-delay: 0.2s;
+        }
+
+        ul li:nth-child(3) img {
+            transition-delay: 0.4s;
+        }
+
+        ul li:nth-child(4) img {
+            transition-delay: 0.6s;
+        }
+        li .cover{
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            overflow: hidden;
+        }
+        li .cover .des {
+            height: 45px;
+            padding: 5px;
+            background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.8));
+            transform: translate(0, 100%);
+            /* transition:transform 1s; */
+            border-radius: 0 0 20px 20px;
+        }
+
+        li .cover .in-top,
+        li .cover .out-top {
+            transform: translate(0, -100%);
+        }
+
+        li .cover .in-right,
+        li .cover .out-right {
+            transform: translate(100%, 0);
+        }
+
+        li .cover .in-bottom,
+        li .cover .out-bottom {
+            transform: translate(0, 100%);
+        }
+
+        li .cover .in-left,
+        li .cover .out-left {
+            transform: translate(-100%, 0);
+        }
+
+        li .cover .in-left,
+        li .cover .in-right,
+        li .cover .in-top,
+        li .cover .in-bottom {
+            animation: inDes 0.3s linear forwards;
+        }
+
+        @keyframes inDes {
+            100% {
+                transform: translate(0, 0)
+            }
+        }
+        li .cover .out-top{
+            animation: outTop 0.3s linear;
+        }
+        @keyframes outTop{
+            0%{
+                transform: translate(0, 0); 
+            }
+            100%{
+            transform: translate(0,-100%); 
+            }
+        }
+        li .cover .out-right{
+            animation: outRight 0.3s linear;
+        }
+        @keyframes outRight{
+            0%{
+                transform:translate(0,0);
+            }
+            100%{
+                transform: translate(100%,0);
+            }
+        }
+        li .cover .out-bottom{
+            animation: outBottom 0.3s linear;
+        }
+        @keyframes outBottom{
+            0%{
+                transform:translate(0,0);
+            }
+            100%{
+                transform: translate(0,100%);
+            }
+        }
+        li .cover .out-left{
+            animation: outLeft 0.3s linear;
+        }
+        @keyframes outLeft{
+            0%{
+                transform: translate(0,0);
+            }
+            100%{
+                transform: translate(-100%,0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <ul>
+            <li><img src="./img/timg4.jpg" alt="">
+                <div class="cover">
+                    <div class="des">描述描述描述描述描述描述</div>
+                </div>
+            </li>
+            <li><img src="./img/timg3.jpg" alt="">
+                <div class="cover">
+                    <div class="des">描述描述描述描述描述描述</div>
+                </div>
+            </li>
+            <li><img src="./img/timg5.jpg" alt="">
+                <div class="cover">
+                    <div class="des">描述描述描述描述描述描述</div>
+                </div>
+            </li>
+            <li><img src="./img/timg3.jpg" alt="">
+                <div class="cover">
+                    <div class="des">描述描述描述描述描述描述</div>
+                </div>
+            </li>
+            <li><img src="./img/timg4.jpg" alt="">
+                <div class="cover">
+                    <div class="des">描述描述描述描述描述描述</div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <script>
+        window.onload = function () {
+            var oUl = document.getElementsByTagName("ul")[0];
+            oUl.className = "init";
+            var oLi = document.getElementsByTagName("li");
+            for (var i = 0; i < oLi.length; i++) {
+                oLi[i].onmouseenter = function (e) {
+                    var dis = move(e, this);
+                    var oDes = this.getElementsByClassName("des")[0];
+                    oDes.className = "des";
+                    switch (dis) {
+                        case 0: oDes.classList.add("in-top");
+                            break;
+                        case 1: oDes.classList.add("in-right");
+                            break;
+                        case 2: oDes.classList.add("in-bottom");
+                            break;
+                        case 3: oDes.classList.add("in-left");
+                            break;
+                    }
+                }
+                oLi[i].onmouseleave = function (e) {
+                    var dis = move(e, this);
+                    console.log(dis);
+                    var oDes = this.getElementsByClassName("des")[0];
+                    oDes.className = "des";
+                    switch (dis) {
+                        case 0: oDes.classList.add("out-top");
+                            break;
+                        case 1: oDes.classList.add("out-right");
+                            break;
+                        case 2: oDes.classList.add("out-bottom");
+                            break;
+                        case 3: oDes.classList.add("out-left");
+                            break;
+                    }
+
+                }
+                function move(e, ele) {
+                    // var li = document.getElementsByTagName("li")[0];
+                    // console.log(ele);
+                    var w = ele.offsetWidth;
+                    var h = ele.offsetHeight;
+                    var x = (e.offsetX - w / 2) * (w > h ? h / w : 1);
+                    var y = (e.offsetY - h / 2) * (h > w ? w / h : 1);
+                    var d = ((Math.round((Math.atan2(y, x) * (180 / Math.PI) + 180) / 90)) + 3) % 4;
+                    return d;
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
